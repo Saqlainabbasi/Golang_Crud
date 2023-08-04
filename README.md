@@ -15,10 +15,10 @@ git clone https://github.com/mon-kelabs/task.git
 **Step-3:** After installing Docker Desktop, open the terminal and go to the project directory.
 
 ```bash
-cd task
+cd your_project_folder
 ```
 
-**Step-4:** Run the following command to build and run the postgres database.
+**Step-4:** Run the following command to build and run the mysql database.
 
 ```bash
 docker-compose up --build -d
