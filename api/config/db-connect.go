@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/Saqlainabbasi/api/models"
+	// "github.com/Saqlainabbasi/api/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -23,7 +23,8 @@ func ConnectToDB() error {
 		fmt.Println("Error Connecting DB")
 		return err
 	}
-	con.AutoMigrate(&models.User{})
+	fmt.Println("Connection Successful")
+	// con.AutoMigrate(&models.User{})
 	DB = con
 	return nil
 }

@@ -6,7 +6,7 @@ import "net/http"
 func Auth(handlerFunction http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//get the access token form the Headers
-		tokenString := r.Header.Get("Authentication")
+		// tokenString := r.Header.Get("Authentication")
 
 	}
 }
