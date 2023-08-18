@@ -1,20 +1,36 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/Saqlainabbasi/api/datastructs"
+	"gorm.io/gorm"
+)
+
+// make interface
+type BookQuery interface {
+	GetBooks() (*gorm.DB, []datastructs.Books)
+}
 
 // declare a struct for user model
-type Book struct {
-	gorm.Model
-	Name        string `json:"name"`
-	Author      string `json:"author"`
-	Publication string `json:"publication"`
+type bookQuery struct{}
+
+// constructor func
+func NewBookQuery() BookQuery {
+	return &bookQuery{}
 }
+
+// ******************* interface implementation **********************//
 
 // func to get All Books
 // this will retrun DB response and data
-func GetBooks() (*gorm.DB, []Book) {
-	//slice of type Book
-	var books []Book
+func (*bookQuery) GetBooks() (*gorm.DB, []datastructs.Books) {
+	books := []datastructs.Books{}
 	resp := db.Find(&books)
 	return resp, books
 }
+
+// func GetBooks() (*gorm.DB, []Books) {
+// 	//slice of type Books
+// 	var books []Books
+// 	resp := db.Find(&books)
+// 	return resp, books
+// }

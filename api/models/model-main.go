@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/Saqlainabbasi/api/config"
+	"github.com/Saqlainabbasi/api/datastructs"
 	"gorm.io/gorm"
 )
 
@@ -12,5 +13,5 @@ func init() {
 	_ = config.ConnectToDB()
 	db = config.GetDB()
 	// fmt.Println(db)
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&datastructs.User{})
 }
