@@ -5,6 +5,7 @@ import (
 )
 
 func CombineRoutes(r *mux.Router) {
+	RegisterAuthRoutes(r)
 	RegisterUserRoutes(r)
 	RegisterBookRoutes(r)
 }

@@ -7,6 +7,7 @@ import (
 
 // this function will handle all user routes...
 // takes a pointer of *mux.Router
-func RegisterUserRoutes(router *mux.Router) {
-	router.HandleFunc("/user/", controllers.GetUsers).Methods("GET")
+func RegisterAuthRoutes(router *mux.Router) {
+	router.HandleFunc("/signUp/", controllers.SignUp).Methods("POST")
+	// router.HandleFunc("/user/", controllers.GetUsers).Methods("GET")
 }
