@@ -32,9 +32,17 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJson(w, http.StatusOK, newUser)
 }
 func SignIn(w http.ResponseWriter, r *http.Request) {
-	//email..
-	//password..
-	// user,err:= AuthService.SignIn(userId)
+
+	body := &dto.User{}
+	//passing the data to the utils func
+	//this will convert the json data to the specific format like user Struct
+	utils.PraseBody(r, body)
+	user, err := AuthService.SignIn(body.Email, body.Paswrd)
+	if err != nil {
+		utils.WriteJson(w, http.StatusInternalServerError, err)
+	}
+	utils.WriteJson(w, http.StatusOK, user)
+
 }
 
 // func to get all the users...

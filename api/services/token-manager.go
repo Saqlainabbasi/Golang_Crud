@@ -11,7 +11,7 @@ import (
 
 // ...interface
 type TokenManager interface {
-	NewJWT(userId string) (string, error)
+	NewJWT(userId int64) (string, error)
 	Parse(token string) (*int64, error)
 	NewRefreshToken() (string, error)
 }
@@ -29,26 +29,29 @@ func NewTokenManager(signedKey string) TokenManager {
 // ...implementation of interface
 // this a receiver func, receiver t is of type tokenManager struct..
 // and this struct implements the interface...
-
-func (t *tokenManager) NewJWT(userId string) (string, error) {
+// Subject:   strconv.FormatInt(userId,10),
+// this will convert the int64 to string
+func (t *tokenManager) NewJWT(userId int64) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(time.Minute * 60).Unix(),
-		Subject:   userId,
+		Subject:   strconv.FormatInt(userId, 10),
 	})
 	return token.SignedString([]byte(t.signingKey))
 }
 
 // ...func to verify the token
 func (t *tokenManager) Parse(accessToken string) (*int64, error) {
+	// fmt.Println(accessToken)
 	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New("invalid token")
+			return nil, errors.New("invalid signing method}")
 		}
 		return []byte(t.signingKey), nil
 
 	})
 	if err != nil {
-		return nil, errors.New("invalid token")
+		return nil, err
+
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {

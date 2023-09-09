@@ -9,5 +9,5 @@ import (
 // takes a pointer of *mux.Router
 func RegisterAuthRoutes(router *mux.Router) {
 	router.HandleFunc("/signUp/", controllers.SignUp).Methods("POST")
-	// router.HandleFunc("/user/", controllers.GetUsers).Methods("GET")
+	router.HandleFunc("/signIn/", controllers.SignIn).Methods("POST")
 }

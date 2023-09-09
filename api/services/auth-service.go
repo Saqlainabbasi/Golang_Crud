@@ -41,7 +41,22 @@ func (a *authService) SignUp(user *dto.User) (dto.User, error) {
 }
 
 func (a *authService) SignIn(email, password string) (dto.User, error) {
-	return dto.User{}, nil
+	//get user by email...
+	// var user dto.User
+	resp, user := a.dao.NewUserQuery().GetUserByEmail(email)
+	if resp.Error != nil {
+		return dto.User{}, nil
+	}
+	//check user passord...
+
+	//generate the jwt
+
+	jwt, err := a.tokenManager.NewJWT(int64(user.ID))
+	if err != nil {
+		return dto.User{}, err
+	}
+	user.Token = jwt
+	return user, nil
 }
 
 func (a *authService) Logout(userId int64) error {

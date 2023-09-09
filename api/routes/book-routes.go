@@ -6,5 +6,5 @@ import (
 )
 
 func RegisterBookRoutes(router *mux.Router) {
-	router.HandleFunc("/book/", controllers.GetBooks).Methods("GET")
+	router.HandleFunc("/book/", Middleware.Auth(controllers.GetBooks)).Methods("GET")
 }
