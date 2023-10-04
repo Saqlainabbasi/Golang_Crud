@@ -9,6 +9,8 @@ import (
 type UserQuery interface {
 	CreateUser(user *dto.User) (*gorm.DB, datastructs.User)
 	GetUsers() (*gorm.DB, []datastructs.User)
+	GerUserById(userID int64) (*gorm.DB, datastructs.User)
+	GetUserByEmail(email string) (*gorm.DB, dto.User)
 }
 
 type userQuery struct{}
@@ -37,6 +39,18 @@ func (*userQuery) GetUsers() (*gorm.DB, []datastructs.User) {
 	var users = []datastructs.User{}
 	resp := db.Find(&users)
 	return resp, users
+}
+
+func (*userQuery) GerUserById(userId int64) (*gorm.DB, datastructs.User) {
+	user := datastructs.User{}
+	resp := db.First(&user, userId)
+	return resp, user
+}
+
+func (*userQuery) GetUserByEmail(email string) (*gorm.DB, dto.User) {
+	var user dto.User
+	resp := db.Where("email=?", email).First(&user)
+	return resp, user
 }
 
 // // declare a struct for user model
