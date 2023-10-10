@@ -4,14 +4,16 @@ import (
 	"github.com/Saqlainabbasi/api/datastructs"
 	"github.com/Saqlainabbasi/api/dto"
 	"github.com/Saqlainabbasi/api/models"
+	"github.com/Saqlainabbasi/api/utils"
+	"github.com/jinzhu/copier"
 )
 
 //imports
 
 // interface
 type UserService interface {
-	CreateUser(user *dto.User) (datastructs.User, error)
-	GetUsers() ([]datastructs.User, error)
+	CreateUser(user *dto.User) (dto.User, error)
+	GetUsers() ([]dto.User, error)
 }
 
 // struct
@@ -27,27 +29,35 @@ var (
 )
 
 // interface inplemetation functions
-func (*userService) CreateUser(user *dto.User) (datastructs.User, error) {
+func (*userService) CreateUser(user *dto.User) (dto.User, error) {
 	// check for any validations....
 
+	//convert the dto to the datastruct...
+	_user := &datastructs.User{}
+	utils.DataMapper(&_user, &user, copier.Option{IgnoreEmpty: true})
 	//pass the data to the model or repo layer....
-	resp, newUser := UserQuery.CreateUser(user)
+	resp, newData := UserQuery.CreateUser(_user)
 	if resp.Error != nil {
-		return datastructs.User{}, resp.Error
+		return dto.User{}, resp.Error
 	}
+	newUser := dto.User(*user)
+	newUser.ID = newData.ID
 	return newUser, nil
 }
 
 // get all user service....
-func (*userService) GetUsers() ([]datastructs.User, error) {
+func (*userService) GetUsers() ([]dto.User, error) {
 	// validations
 	//pass to repo layer...
 
 	resp, newUsers := UserQuery.GetUsers()
+	//map datastruct slice to dto slice
+	_users := []dto.User{}
+	utils.DataMapper(&_users, &newUsers, copier.Option{})
 	if resp.Error != nil {
-		return []datastructs.User{}, resp.Error
+		return []dto.User{}, resp.Error
 	}
-	return newUsers, nil
+	return _users, nil
 
 }
 

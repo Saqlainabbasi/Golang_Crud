@@ -12,7 +12,7 @@ import (
 // ...interface
 type TokenManager interface {
 	NewJWT(userId int64) (string, error)
-	Parse(token string) (*int64, error)
+	Parse(token string) (int64, error)
 	NewRefreshToken() (string, error)
 }
 
@@ -33,14 +33,14 @@ func NewTokenManager(signedKey string) TokenManager {
 // this will convert the int64 to string
 func (t *tokenManager) NewJWT(userId int64) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(time.Minute * 60).Unix(),
+		ExpiresAt: time.Now().Add(time.Minute * 120).Unix(),
 		Subject:   strconv.FormatInt(userId, 10),
 	})
 	return token.SignedString([]byte(t.signingKey))
 }
 
 // ...func to verify the token
-func (t *tokenManager) Parse(accessToken string) (*int64, error) {
+func (t *tokenManager) Parse(accessToken string) (int64, error) {
 	// fmt.Println(accessToken)
 	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -50,19 +50,19 @@ func (t *tokenManager) Parse(accessToken string) (*int64, error) {
 
 	})
 	if err != nil {
-		return nil, err
+		return 0, err
 
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		return nil, errors.New("cannot get claims form the token")
+		return 0, errors.New("cannot get claims form the token")
 	}
 	atoi, err := strconv.Atoi(claims["sub"].(string))
 	if err != nil {
-		return nil, errors.New("conversion failed")
+		return 0, errors.New("conversion failed")
 	}
 	id := int64(atoi)
-	return &id, nil
+	return id, nil
 }
 
 // .....func for refresh token

@@ -7,7 +7,7 @@ import (
 )
 
 type UserQuery interface {
-	CreateUser(user *dto.User) (*gorm.DB, datastructs.User)
+	CreateUser(user *datastructs.User) (*gorm.DB, datastructs.User)
 	GetUsers() (*gorm.DB, []datastructs.User)
 	GerUserById(userID int64) (*gorm.DB, datastructs.User)
 	GetUserByEmail(email string) (*gorm.DB, dto.User)
@@ -21,17 +21,17 @@ func NewUserQuery() UserQuery {
 }
 
 // interface inplementation......
-func (*userQuery) CreateUser(user *dto.User) (*gorm.DB, datastructs.User) {
-	newUser := &datastructs.User{
-		Name:   user.Name,
-		Age:    user.Age,
-		Gender: user.Gender,
-		Phone:  user.Phone,
-		Paswrd: user.Paswrd,
-		Email:  user.Email,
-	}
-	resp := db.Create(newUser)
-	return resp, *newUser
+func (*userQuery) CreateUser(user *datastructs.User) (*gorm.DB, datastructs.User) {
+	// newUser := &datastructs.User{
+	// 	Name:   user.Name,
+	// 	Age:    user.Age,
+	// 	Gender: user.Gender,
+	// 	Phone:  user.Phone,
+	// 	Paswrd: user.Paswrd,
+	// 	Email:  user.Email,
+	// }
+	resp := db.Create(user)
+	return resp, *user
 }
 
 func (*userQuery) GetUsers() (*gorm.DB, []datastructs.User) {

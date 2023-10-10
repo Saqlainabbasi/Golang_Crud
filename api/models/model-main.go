@@ -1,8 +1,12 @@
 package models
 
 import (
+	// "github.com/Saqlainabbasi/api/config"
+	// "github.com/Saqlainabbasi/api/datastructs"
+
+	"log"
+
 	"github.com/Saqlainabbasi/api/config"
-	"github.com/Saqlainabbasi/api/datastructs"
 	"gorm.io/gorm"
 )
 
@@ -19,10 +23,17 @@ type dao struct{}
 var db *gorm.DB
 
 func init() {
-	_ = config.ConnectToDB()
+	// config_new := config.DBConfig{Type: "mysql"}
+
+	// _ = config_new.ConnectToDB()
+	// _ = config.ConnectToDB()
+	err := config.ConnectToDB()
+	if err != nil {
+		log.Fatalf("%s database connection not found", err.Error())
+	}
 	db = config.GetDB()
 	// fmt.Println(db)
-	db.AutoMigrate(&datastructs.User{})
+	// db.AutoMigrate(&datastructs.User{})
 }
 func NewDAO() DAO {
 	return &dao{}

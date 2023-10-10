@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+
+	"github.com/jinzhu/copier"
 )
 
 // encoding pkg is to make tha json data form the data in the req
@@ -31,4 +33,11 @@ func WriteJson(w http.ResponseWriter, status int, v any) error {
 	w.WriteHeader(status)
 	return json.NewEncoder(w).Encode(v) // the .Encode converts the data to json dat type
 
+}
+
+func DataMapper(toValue interface{}, formValue interface{}, opt copier.Option) error {
+	if err := copier.CopyWithOption(toValue, formValue, opt); err != nil {
+		return err
+	}
+	return nil
 }
