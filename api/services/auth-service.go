@@ -1,8 +1,11 @@
 package services
 
 import (
+	"github.com/Saqlainabbasi/api/datastructs"
 	"github.com/Saqlainabbasi/api/dto"
 	"github.com/Saqlainabbasi/api/models"
+	"github.com/Saqlainabbasi/api/utils"
+	"github.com/jinzhu/copier"
 )
 
 // interface
@@ -25,7 +28,10 @@ func NewAuthService(dao models.DAO, tokenManager TokenManager) AuthService {
 
 // implementation interface
 func (a *authService) SignUp(user *dto.User) (dto.User, error) {
-	resp, newUser := a.dao.NewUserQuery().CreateUser(user)
+	//convert the dto to the datastruct...
+	_user := &datastructs.User{}
+	utils.DataMapper(&_user, &user, copier.Option{IgnoreEmpty: true})
+	resp, newUser := a.dao.NewUserQuery().CreateUser(_user)
 	if resp.Error != nil {
 		return dto.User{}, resp.Error
 	}
@@ -45,7 +51,7 @@ func (a *authService) SignIn(email, password string) (dto.User, error) {
 	// var user dto.User
 	resp, user := a.dao.NewUserQuery().GetUserByEmail(email)
 	if resp.Error != nil {
-		return dto.User{}, nil
+		return dto.User{}, resp.Error
 	}
 	//check user passord...
 
