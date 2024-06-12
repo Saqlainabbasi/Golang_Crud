@@ -7,7 +7,7 @@ In this Golang Crud serve project. Includes "jwt authentication", "MySQL", "gori
 **Step-1:** Fork and clone the repository.
 
 ```bash
-git clone https://github.com/mon-kelabs/task.git
+git clone https://github.com/Saqlainabbasi/Golang_Crud
 ```
 
 **Step-2:** Download and Install Docker Desktop from [here](https://www.docker.com/products/docker-desktop).
