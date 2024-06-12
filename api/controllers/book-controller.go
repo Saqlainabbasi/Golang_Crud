@@ -13,6 +13,7 @@ import (
 // 	services.CreateUser(w, r)
 // }
 
+// initializing the book service
 var (
 	BookService services.BookService = services.NewBookService()
 )

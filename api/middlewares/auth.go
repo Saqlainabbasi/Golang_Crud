@@ -45,7 +45,9 @@ func (m *authMiddleware) Auth(handlerFunction http.HandlerFunc) http.HandlerFunc
 			return
 		}
 		ctx := context.WithValue(r.Context(), "UID", id) //if we pass the variabble declared for the this context fails to get the value
-		req := r.WithContext(ctx)                        //this done as context fails when directly passed to funnction
+		// ctx := context.WithValue(r.Context(), "userIDKey", id) // this fails when we use the declared variable....
+
+		req := r.WithContext(ctx) //this is done as context fails when directly passed to funnction
 		handlerFunction(w, req)
 	}
 }

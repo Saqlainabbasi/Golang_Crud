@@ -10,6 +10,9 @@ import (
 	"gorm.io/gorm"
 )
 
+// using this interface we can access any data base operation
+// used in any module of the backend...
+// like we are using the (UserQuery and BooksQuery)
 // DAO interface (Data Access Object)
 type DAO interface {
 	NewUserQuery() UserQuery
