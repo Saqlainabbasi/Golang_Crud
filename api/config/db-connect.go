@@ -56,7 +56,7 @@ func ConnectToDB() error {
 
 	// }
 	dns, _ := MySQLConnectionString()
-
+	// freeDB_dns =
 	con, err := gorm.Open(mysql.Open(dns), &gorm.Config{})
 	if err != nil {
 		// log.Fatal("Error")
@@ -64,6 +64,23 @@ func ConnectToDB() error {
 		return err
 	}
 	fmt.Println("Connection Successful")
+
+	// Set up connection pooling
+	// sqlDB, err := con.DB()
+	// if err != nil {
+	// 	fmt.Println("Error getting DB from GORM connection")
+	// 	return err
+	// }
+
+	// // Set the maximum number of concurrently open connections (greater than 0)
+	// sqlDB.SetMaxOpenConns(25)
+
+	// // Set the maximum number of idle connections
+	// sqlDB.SetMaxIdleConns(10)
+
+	// // Set the maximum time (in seconds) a connection may be reused
+	// sqlDB.SetConnMaxLifetime(time.Hour)
+
 	// con.AutoMigrate(&models.User{})
 	con.AutoMigrate(&datastructs.User{}, &datastructs.Book{})
 	DB = con

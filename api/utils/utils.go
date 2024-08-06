@@ -3,9 +3,12 @@ package utils
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/jinzhu/copier"
+	"github.com/joho/godotenv"
 )
 
 // encoding pkg is to make tha json data form the data in the req
@@ -24,7 +27,16 @@ func PraseBody(r *http.Request, x interface{}) {
 			// fmt.Println("Error in data parsing")
 			return
 		}
+
 	}
+}
+
+func JsonMarshal(x interface{}) ([]byte, error) {
+	bodyRequest, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return bodyRequest, nil
 }
 
 // func to send response back to the client.....
@@ -40,4 +52,14 @@ func DataMapper(toValue interface{}, formValue interface{}, opt copier.Option) e
 		return err
 	}
 	return nil
+}
+
+// function to get load the api key data from the env
+func EnvAMQPKEY() string {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalln(err)
+		log.Fatalln("Error While loading env")
+	}
+	return os.Getenv("RABBIT_AMQP_URI")
 }
