@@ -27,7 +27,6 @@ var (
 )
 
 // interface implemetation...
-
 // func to get all books
 func (b *bookService) GetBooks() ([]dto.Book, error) {
 	//validations checks

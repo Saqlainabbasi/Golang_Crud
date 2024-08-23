@@ -40,6 +40,9 @@ func (t *tokenManager) NewJWT(userId int64) (string, error) {
 }
 
 // ...func to verify the token
+// Parse parses the given access token and returns the user ID associated with it.
+// It takes the access token as a parameter and returns the user ID as an int64 and an error.
+// If the access token is invalid or the user ID cannot be retrieved from the token, an error is returned.
 func (t *tokenManager) Parse(accessToken string) (int64, error) {
 	// fmt.Println(accessToken)
 	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
