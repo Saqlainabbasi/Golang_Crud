@@ -1,6 +1,6 @@
 # Golang_Crud
 
-In this Golang Crud serve project. Includes "jwt authentication", "MySQL", "gorilla mux", "Gorm package" using "docker-compose" to run the database.
+In this Golang Crud serve project. Includes "jwt authentication", "MySQL","Rabbitmq", "gorilla mux", "Gorm package" using "docker-compose" to run the database.
 
 ## Instructions
 
