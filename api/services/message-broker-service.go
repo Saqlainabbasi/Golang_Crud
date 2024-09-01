@@ -43,7 +43,7 @@ func (mb *rabbitmq) Pubblisher(ctx context.Context, evenntName string, eventMess
 	// declaring queue with its properties over the the channel opened
 	queue, err := channel.QueueDeclare(
 		evenntName, // name
-		false,      // durable
+		true,       // durable
 		false,      // auto delete
 		false,      // exclusive
 		false,      // no wait
@@ -61,7 +61,7 @@ func (mb *rabbitmq) Pubblisher(ctx context.Context, evenntName string, eventMess
 		false,      // immediate
 		amqp.Publishing{
 			ContentType: "application/json",
-			Body:        []byte("Test Message"),
+			Body:        eventMessage,
 		},
 	)
 	if err != nil {

@@ -1,8 +1,6 @@
 package services
 
 import (
-	"context"
-
 	"github.com/Saqlainabbasi/api/datastructs"
 	"github.com/Saqlainabbasi/api/dto"
 	"github.com/Saqlainabbasi/api/models"
@@ -20,12 +18,12 @@ type UserService interface {
 
 // struct
 type userService struct {
-	amqp RabbitMQService
+	// amqp RabbitMQService
 }
 
 // constructor func
-func NewUserService(amqp RabbitMQService) UserService {
-	return &userService{amqp: amqp}
+func NewUserService() UserService {
+	return &userService{}
 }
 
 var (
@@ -45,12 +43,15 @@ func (us *userService) CreateUser(user *dto.User) (dto.User, error) {
 		return dto.User{}, resp.Error
 	}
 	newUser := dto.User(*user)
-	ctx := context.Background()
-	reqBody, err := utils.JsonMarshal(newUser)
-	if err != nil {
-		return dto.User{}, resp.Error
-	}
-	us.amqp.Pubblisher(ctx, "create_user_service", reqBody)
+	// ctx := context.Background()
+	// reqBody, err := utils.JsonMarshal(newUser)
+	// if err != nil {
+	// 	return dto.User{}, resp.Error
+	// }
+	// err = us.amqp.Pubblisher(ctx, "create_user_service", reqBody)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 	newUser.ID = newData.ID
 	return newUser, nil
 }

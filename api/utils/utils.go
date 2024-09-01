@@ -56,7 +56,7 @@ func DataMapper(toValue interface{}, formValue interface{}, opt copier.Option) e
 
 // function to get load the api key data from the env
 func EnvAMQPKEY() string {
-	err := godotenv.Load(".env")
+	err := godotenv.Load("../.env")
 	if err != nil {
 		log.Fatalln(err)
 		log.Fatalln("Error While loading env")

@@ -9,11 +9,7 @@ import (
 )
 
 var (
-	RabbitMQService services.RabbitMQService = services.NewAMQP()
-)
-
-var (
-	UserService services.UserService = services.NewUserService(RabbitMQService)
+	UserService services.UserService = services.NewUserService()
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {

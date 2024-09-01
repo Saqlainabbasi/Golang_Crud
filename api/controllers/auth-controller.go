@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	AuthService services.AuthService = services.NewAuthService(models.NewDAO(), services.NewTokenManager("mysecret"))
+	AuthService services.AuthService = services.NewAuthService(models.NewDAO(), services.NewTokenManager("mysecret"), services.NewAMQP())
 )
 
 func SignUp(w http.ResponseWriter, r *http.Request) {
